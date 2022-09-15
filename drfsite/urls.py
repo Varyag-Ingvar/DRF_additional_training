@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from women.views import WomenAPIList, WomenAPIRetrieveUpdate, WomenAPIRetrieveDestroy
 
 # from women.views import WomenViewSet
@@ -36,7 +36,11 @@ from women.views import WomenAPIList, WomenAPIRetrieveUpdate, WomenAPIRetrieveDe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/sessionauth/', include('rest_framework.urls')),    # подключаем авторизацию на основе сессий
     path('api/v1/women/', WomenAPIList.as_view()),           # прописываем путь с методом .as_view() для get и post
     path('api/v1/women/<int:pk>/', WomenAPIRetrieveUpdate.as_view()),
     path('api/v1/womendelete/<int:pk>/', WomenAPIRetrieveDestroy.as_view()),
+
+    path('api/v1/auth/', include('djoser.urls')),          # конфигурируем url для djoser
+    re_path(r'^auth/', include('djoser.urls.authtoken')),  # импортируем re_path из Джанго - http://127.0.0.1:8000/auth/token/login/
 ]

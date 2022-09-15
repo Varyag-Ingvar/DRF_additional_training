@@ -1,7 +1,7 @@
 from django.forms import model_to_dict
 from django.shortcuts import render
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -63,7 +63,8 @@ class WomenAPIRetrieveUpdate(generics.RetrieveUpdateAPIView):
     """Класс на базе generics.UpdateAPIView позволяет реализовать 'put' и 'patch' методы из-под капота DRF"""
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
-    permission_classes = (IsOwnerOrReadOnly, )  # только юзер, который создал запись, может ее изменять
+    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)  # только юзер, который создал запись, может ее изменять (авторизованный)
+    # authentication_classes = (TokenAuthentication, )  # можем определять способы аутентификации для конкретного класса
 
 
 class WomenAPIRetrieveDestroy(generics.RetrieveDestroyAPIView):
@@ -71,6 +72,7 @@ class WomenAPIRetrieveDestroy(generics.RetrieveDestroyAPIView):
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
     permission_classes = (IsAdminOrReadOnly, )  # только админ может удалять запись, а просматривать любой
+
 
 
 # class WomenAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
