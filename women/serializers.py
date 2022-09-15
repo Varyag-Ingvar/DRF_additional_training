@@ -4,10 +4,13 @@ from .models import Women
 
 
 class WomenSerializer(serializers.ModelSerializer):
+    # авторизованный пользователь будет автоматически связываться с создаваемой/изменяемой записью
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Women
-        fields = ("id", "title", "content", "cat")   # поля, которые будут возвращаться клиенту
-        # fields = "__all__"  # запись в таком формате вернте все поля прописанные в модели
+        # fields = ("id", "title", "content", "cat")   # поля, которые будут возвращаться клиенту
+        fields = "__all__"  # запись в таком формате вернте все поля прописанные в модели
 
 
 

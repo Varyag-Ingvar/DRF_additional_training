@@ -15,26 +15,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from women.views import WomenAPIList, WomenAPIUpdate, WomenAPIDetailView
-from women.views import WomenViewSet
-from rest_framework import routers
+from women.views import WomenAPIList, WomenAPIRetrieveUpdate, WomenAPIRetrieveDestroy
 
-router = routers.DefaultRouter()
-router.register(r'women', WomenViewSet)  # создаем роутер
+# from women.views import WomenViewSet
+# from rest_framework import routers
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),  # http://127.0.0.1:8000/api/v1/women/
+# router = routers.DefaultRouter()
+# router.register(r'women', WomenViewSet)  # создаем роутер
+
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('api/v1/', include(router.urls)),  # http://127.0.0.1:8000/api/v1/women/
 
     # path('api/v1/womenlist/', WomenViewSet.as_view({'get': 'list'})),    # названия методов берем в документации к DRF
     # path('api/v1/womenlist/<int:pk>/', WomenViewSet.as_view({'put': 'update'})),
-]
+# ]
 
 
 """Упростим паттерны маршрутов (см.код выше)"""
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     path('api/v1/womenlist/', WomenAPIList.as_view()),           # прописываем путь с методом .as_view() для get и post
-#     path('api/v1/womenlist/<int:pk>/', WomenAPIUpdate.as_view()),
-#     path('api/v1/womendetail/<int:pk>/', WomenAPIDetailView.as_view()),
-# ]
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('api/v1/women/', WomenAPIList.as_view()),           # прописываем путь с методом .as_view() для get и post
+    path('api/v1/women/<int:pk>/', WomenAPIRetrieveUpdate.as_view()),
+    path('api/v1/womendelete/<int:pk>/', WomenAPIRetrieveDestroy.as_view()),
+]
